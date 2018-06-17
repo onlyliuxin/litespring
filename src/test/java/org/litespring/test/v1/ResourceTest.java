@@ -1,15 +1,11 @@
 package org.litespring.test.v1;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.litespring.FileSystemXmlApplicationContextRule;
 import org.litespring.core.io.ClassPathResource;
 import org.litespring.core.io.FileSystemResource;
 import org.litespring.core.io.Resource;
@@ -17,7 +13,7 @@ import org.litespring.core.io.Resource;
 public class ResourceTest {
 
 	@Rule
-	public TemporaryFolder temporaryFolder = new TemporaryFolder();
+	public FileSystemXmlApplicationContextRule context = new FileSystemXmlApplicationContextRule("petstore-v1.xml");
 
 	@Test
 	public void testClassPathResource() throws Exception {
@@ -40,10 +36,7 @@ public class ResourceTest {
 
 	@Test
 	public void testFileSystemResource() throws Exception {
-		temporaryFolder.newFolder("test");
-	  File file = temporaryFolder.newFile("test/petstore-v1.xml");
-		copyResourceToFile("petstore-v1.xml", file);
-		Resource r = new FileSystemResource(file.getAbsolutePath());
+		Resource r = new FileSystemResource(context.getPath());
 
 		InputStream is = null;
 
@@ -56,15 +49,6 @@ public class ResourceTest {
 				is.close();
 			}
 		}
-	}
-
-	private void copyResourceToFile(String resource, File file) throws IOException
-	{
-		InputStream initialStream = ResourceTest.class.getClassLoader().getResourceAsStream(resource);
-		byte[] buffer = new byte[initialStream.available()];
-		initialStream.read(buffer);
-		OutputStream outStream = new FileOutputStream(file);
-		outStream.write(buffer);
 	}
 
 }
