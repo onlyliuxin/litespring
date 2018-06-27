@@ -36,7 +36,7 @@ public class CustomBooleanEditor extends PropertyEditorSupport {
 			// Treat empty String as null value.
 			setValue(null);
 		}
-		if ((VALUE_TRUE.equalsIgnoreCase(input) || VALUE_ON.equalsIgnoreCase(input) ||
+		else if ((VALUE_TRUE.equalsIgnoreCase(input) || VALUE_ON.equalsIgnoreCase(input) ||
 						VALUE_YES.equalsIgnoreCase(input) || VALUE_1.equals(input))) {
 			setValue(Boolean.TRUE);
 		}
