@@ -23,6 +23,7 @@ public class XmlBeanDefinitionReaderTest {
 		reader.loadBeanDefinitions(resource);
 		String annotation = Component.class.getName();
 		
+		//下面的代码和ClassPathBeanDefinitionScannerTest重复，该怎么处理？
 		{
 			BeanDefinition bd = factory.getBeanDefinition("petStore");
 			Assert.assertTrue(bd instanceof ScannedGenericBeanDefinition);
