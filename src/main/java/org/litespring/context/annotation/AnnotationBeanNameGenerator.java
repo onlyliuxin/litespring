@@ -1,6 +1,8 @@
 package org.litespring.context.annotation;
 
+
 import java.beans.Introspector;
+import java.util.Map;
 import java.util.Set;
 
 import org.litespring.beans.BeanDefinition;
@@ -9,6 +11,7 @@ import org.litespring.beans.factory.support.BeanDefinitionRegistry;
 import org.litespring.beans.factory.support.BeanNameGenerator;
 import org.litespring.core.annotation.AnnotationAttributes;
 import org.litespring.core.type.AnnotationMetadata;
+import org.litespring.stereotype.Component;
 import org.litespring.util.ClassUtils;
 import org.litespring.util.StringUtils;
 
@@ -37,7 +40,7 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 		String beanName = null;
 		for (String type : types) {
 			AnnotationAttributes attributes = amd.getAnnotationAttributes(type);
-			if (attributes.get("value") != null) {
+			if(isStereotypeWithNameValue(type,attributes)){
 				Object value = attributes.get("value");
 				if (value instanceof String) {
 					String strVal = (String) value;
@@ -45,12 +48,20 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 						beanName = strVal;
 					}
 				}
-			}
+			}			
 		}
 		return beanName;
 	}
 
+	protected boolean isStereotypeWithNameValue(String annotationType,Map<String, Object> attributes) {
 
+		boolean isStereotype = annotationType.equals(Component.class.getName()); /*||
+				(metaAnnotationTypes != null && metaAnnotationTypes.contains(COMPONENT_ANNOTATION_CLASSNAME)) ||
+				annotationType.equals("javax.annotation.ManagedBean") ||
+				annotationType.equals("javax.inject.Named");*/
+
+		return (isStereotype && attributes != null && attributes.containsKey("value"));
+	}
 	/**
 	 * Derive a default bean name from the given bean definition.
 	 * <p>The default implementation delegates to {@link #buildDefaultBeanName(BeanDefinition)}.
