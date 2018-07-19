@@ -10,6 +10,7 @@ import org.litespring.beans.PropertyValue;
 public class GenericBeanDefinition implements BeanDefinition {
 	private String id;
 	private String beanClassName;
+	private Class<?> beanClass;
 	private boolean singleton = true;
 	private boolean prototype = false;
 	private String scope = SCOPE_DEFAULT;
@@ -32,7 +33,25 @@ public class GenericBeanDefinition implements BeanDefinition {
 	public void setBeanClassName(String className){
 		this.beanClassName = className;
 	}
-	
+	public Class<?> resolveBeanClass(ClassLoader classLoader) throws ClassNotFoundException{
+		String className = getBeanClassName();
+		if (className == null) {
+			return null;
+		}
+		Class<?> resolvedClass = classLoader.loadClass(className);
+		this.beanClass = resolvedClass;
+		return resolvedClass;
+	}
+	public Class<?> getBeanClass() throws IllegalStateException {
+		if(this.beanClass == null){
+			throw new IllegalStateException(
+					"Bean class name [" + this.getBeanClassName() + "] has not been resolved into an actual Class");
+		}		
+		return this.beanClass;
+	}
+	public boolean hasBeanClass(){
+		return this.beanClass != null;
+	}
 	public boolean isSingleton() {
 		return this.singleton;
 	}
