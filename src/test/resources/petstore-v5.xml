@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan
+		base-package="org.litespring.service.v5,org.litespring.dao.v5">
+	</context:component-scan>
+
+	<bean id="tx" class="org.litespring.tx.TransactionManager" />
+	
+	<aop:config>
+		
+		<aop:aspect ref="tx">
+
+			<aop:pointcut id="placeOrder"
+				expression="execution(* org.litespring.service.v5.*.placeOrder(..))" />
+			
+			<aop:before pointcut-ref="placeOrder" method="start" />
+			<aop:after-returning pointcut-ref="placeOrder"	method="commit" />	
+			<aop:after-throwing pointcut-ref="placeOrder" method = "rollback"/>
+					
+			
+		</aop:aspect>
+
+	</aop:config>
+
+</beans>
