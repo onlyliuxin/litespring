@@ -51,7 +51,7 @@ public class ReflectiveMethodInvocationTest  {
 	}
 
 	
-	/*@Test
+	@Test
 	public void testMethodInvocation() throws Throwable{
 		
 		
@@ -98,7 +98,7 @@ public class ReflectiveMethodInvocationTest  {
 		Assert.assertEquals("place order", msgs.get(1));	
 		Assert.assertEquals("commit tx", msgs.get(2));	
 		
-	}*/
+	}
 	@Test
 	public void testAfterThrowing() throws Throwable{
 		
