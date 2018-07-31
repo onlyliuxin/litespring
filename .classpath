@@ -33,5 +33,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/spring-core-asm-3.2.18.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-cglib-3.2.18.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
