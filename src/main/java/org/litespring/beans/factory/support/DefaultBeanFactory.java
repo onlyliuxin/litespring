@@ -12,15 +12,15 @@ import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.PropertyValue;
 import org.litespring.beans.SimpleTypeConverter;
 import org.litespring.beans.factory.BeanCreationException;
+import org.litespring.beans.factory.BeanFactoryAware;
 import org.litespring.beans.factory.NoSuchBeanDefinitionException;
 import org.litespring.beans.factory.config.BeanPostProcessor;
-import org.litespring.beans.factory.config.ConfigurableBeanFactory;
 import org.litespring.beans.factory.config.DependencyDescriptor;
 import org.litespring.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.litespring.util.ClassUtils;
 
-public class DefaultBeanFactory extends DefaultSingletonBeanRegistry 
-	implements ConfigurableBeanFactory,BeanDefinitionRegistry{
+public class DefaultBeanFactory  extends AbstractBeanFactory
+	implements BeanDefinitionRegistry{
 
 	private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 	
@@ -43,6 +43,24 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 			
 		return this.beanDefinitionMap.get(beanID);
 	}
+	public List<Object> getBeansByType(Class<?> type){
+		List<Object> result = new ArrayList<Object>();
+		List<String> beanIDs = this.getBeanIDsByType(type);
+		for(String beanID : beanIDs){
+			result.add(this.getBean(beanID));
+		}
+		return result;		
+	}
+	
+	private List<String> getBeanIDsByType(Class<?> type){
+		List<String> result = new ArrayList<String>();
+		for(String beanName :this.beanDefinitionMap.keySet()){
+			if(type.isAssignableFrom(this.getType(beanName))){
+				result.add(beanName);
+			}
+		}		
+		return result;
+	}
 
 	public Object getBean(String beanID) {
 		BeanDefinition bd = this.getBeanDefinition(beanID);
@@ -60,11 +78,13 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 		} 
 		return createBean(bd);
 	}
-	private Object createBean(BeanDefinition bd) {
+	protected Object createBean(BeanDefinition bd) {
 		//创建实例
 		Object bean = instantiateBean(bd);
 		//设置属性
 		populateBean(bd, bean);
+		
+		bean = initializeBean(bd,bean);
 		
 		return bean;		
 		
@@ -121,6 +141,17 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 		}catch(Exception ex){
 			throw new BeanCreationException("Failed to obtain BeanInfo for class [" + bd.getBeanClassName() + "]", ex);
 		}	
+	}
+	protected Object initializeBean(BeanDefinition bd, Object bean)  {
+		invokeAwareMethods(bean);	
+        //Todo，对Bean做初始化
+		//创建代理
+		return bean;
+	}
+	private void invokeAwareMethods(final Object bean) {
+		if (bean instanceof BeanFactoryAware) {
+			((BeanFactoryAware) bean).setBeanFactory(this);
+		}
 	}
 
 	public void setBeanClassLoader(ClassLoader beanClassLoader) {
