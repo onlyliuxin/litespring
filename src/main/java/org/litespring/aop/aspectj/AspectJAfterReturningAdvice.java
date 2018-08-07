@@ -5,11 +5,12 @@ import java.lang.reflect.Method;
 import org.aopalliance.intercept.MethodInvocation;
 import org.litespring.aop.Advice;
 import org.litespring.aop.Pointcut;
+import org.litespring.aop.config.AspectInstanceFactory;
 
 public class AspectJAfterReturningAdvice extends AbstractAspectJAdvice{
 	
-	public AspectJAfterReturningAdvice(Method adviceMethod,AspectJExpressionPointcut pointcut,Object adviceObject){
-		super(adviceMethod,pointcut,adviceObject);
+	public AspectJAfterReturningAdvice(Method adviceMethod,AspectJExpressionPointcut pointcut,AspectInstanceFactory adviceObjectFactory){
+		super(adviceMethod,pointcut,adviceObjectFactory);
 	}
 	
 	public Object invoke(MethodInvocation mi) throws Throwable {
