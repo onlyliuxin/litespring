@@ -10,6 +10,9 @@ import org.litespring.core.annotation.AnnotationAttributes;
 import org.litespring.core.type.AnnotationMetadata;
 import org.litespring.stereotype.Component;
 
+/**
+ * 4.扫描指定的包，并创建ScannedGenericBeanDefinition，同时注册到BeanFactory中。
+ */
 public class ClassPathBeanDefinitionScannerTest {
 	
 	@Test

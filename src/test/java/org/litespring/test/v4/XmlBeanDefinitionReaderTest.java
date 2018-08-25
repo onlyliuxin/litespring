@@ -12,6 +12,10 @@ import org.litespring.core.io.Resource;
 import org.litespring.core.type.AnnotationMetadata;
 import org.litespring.stereotype.Component;
 
+/**
+ * 5. 通过读取xml中配置的指定扫描包，
+ * 然后利用ClassPathBeanDefinitionScanner 注册bean到 Factory中
+ */
 public class XmlBeanDefinitionReaderTest {
 
 	@Test

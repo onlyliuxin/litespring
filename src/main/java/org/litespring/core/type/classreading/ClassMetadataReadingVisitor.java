@@ -7,7 +7,9 @@ import org.springframework.asm.Opcodes;
 import org.springframework.asm.SpringAsmInfo;
 
 
-
+/**
+ * 获取类的基本信息（类名、接口、是否抽象、是否final、父类）
+ */
 public class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata {
 
 	private String className;

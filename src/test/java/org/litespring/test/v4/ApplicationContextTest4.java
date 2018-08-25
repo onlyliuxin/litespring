@@ -6,6 +6,9 @@ import org.litespring.context.ApplicationContext;
 import org.litespring.context.support.ClassPathXmlApplicationContext;
 import org.litespring.service.v4.PetStoreService;
 
+/**
+ * 0.高层次的测试用例，肯定会失败
+ */
 public class ApplicationContextTest4 {
 
 	@Test
