@@ -1,14 +1,16 @@
 package org.litespring.core.annotation;
 
 
-import static java.lang.String.format;
+import org.litespring.util.Assert;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.litespring.util.Assert;
+import static java.lang.String.format;
 
-
+/**
+ * 扩展的Hashmap，value值不仅仅可以是string，还可以是boolean、数组
+ */
 @SuppressWarnings("serial")
 public class AnnotationAttributes extends LinkedHashMap<String, Object> {
 

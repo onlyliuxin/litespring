@@ -1,8 +1,5 @@
 package org.litespring.context.annotation;
 
-import java.beans.Introspector;
-import java.util.Set;
-
 import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.litespring.beans.factory.support.BeanDefinitionRegistry;
@@ -12,11 +9,15 @@ import org.litespring.core.type.AnnotationMetadata;
 import org.litespring.util.ClassUtils;
 import org.litespring.util.StringUtils;
 
+import java.beans.Introspector;
+import java.util.Set;
+
 public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 
 
 	public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
 		if (definition instanceof AnnotatedBeanDefinition) {
+			// 从类注解 属性中获取value
 			String beanName = determineBeanNameFromAnnotation((AnnotatedBeanDefinition) definition);
 			if (StringUtils.hasText(beanName)) {
 				// Explicit bean name found.
@@ -74,6 +75,7 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 */
 	protected String buildDefaultBeanName(BeanDefinition definition) {
 		String shortClassName = ClassUtils.getShortName(definition.getBeanClassName());
+		// 首字母小写化
 		return Introspector.decapitalize(shortClassName);
 	}
 

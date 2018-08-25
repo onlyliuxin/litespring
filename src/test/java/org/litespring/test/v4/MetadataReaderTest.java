@@ -1,7 +1,5 @@
 package org.litespring.test.v4;
 
-import java.io.IOException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.litespring.core.annotation.AnnotationAttributes;
@@ -11,6 +9,12 @@ import org.litespring.core.type.classreading.MetadataReader;
 import org.litespring.core.type.classreading.SimpleMetadataReader;
 import org.litespring.stereotype.Component;
 
+import java.io.IOException;
+
+/**
+ * 3.对 ASM的visitor进行包装，只暴露出从visitor获取的类信息，为了隔离ASM
+ * 其中利用了门面设计模式
+ */
 public class MetadataReaderTest {
 	@Test
 	public void testGetMetadata() throws IOException{

@@ -1,7 +1,5 @@
 package org.litespring.test.v4;
 
-import java.io.IOException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.litespring.core.annotation.AnnotationAttributes;
@@ -10,8 +8,12 @@ import org.litespring.core.type.classreading.AnnotationMetadataReadingVisitor;
 import org.litespring.core.type.classreading.ClassMetadataReadingVisitor;
 import org.springframework.asm.ClassReader;
 
+import java.io.IOException;
 
 
+/**
+ * 2.使用ASM读取 Resource中类的基本信息和注解信息（实现 ClassVisitor）
+ */
 public class ClassReaderTest {
 
 	@Test
@@ -30,7 +32,11 @@ public class ClassReaderTest {
 		Assert.assertEquals("java.lang.Object", visitor.getSuperClassName());
 		Assert.assertEquals(0, visitor.getInterfaceNames().length);
 	}
-	
+
+	/**
+	 * 测试读取类上的注解信息
+	 * @throws Exception
+     */
 	@Test
 	public void testGetAnnonation() throws Exception{
 		ClassPathResource resource = new ClassPathResource("org/litespring/service/v4/PetStoreService.class");
